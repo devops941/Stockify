@@ -34,41 +34,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Login - <?= h(SHOP_NAME) ?></title>
+<title>Login – <?= h(SHOP_NAME) ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link href="<?= BASE_URL ?>/assets/css/style.css" rel="stylesheet">
 </head>
-<body class="d-flex align-items-center" style="min-height:100vh;">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-11 col-sm-8 col-md-5 col-lg-4">
-      <div class="card p-4 shadow-sm">
-        <div class="text-center mb-3">
-          <i class="bi bi-receipt-cutoff" style="font-size:2.5rem;"></i>
-          <h4 class="mt-2 mb-0"><?= h(SHOP_NAME) ?></h4>
-          <small class="text-muted">GST Billing &amp; Stock Management</small>
-        </div>
-        <?php if ($error): ?>
-          <div class="alert alert-danger py-2"><?= h($error) ?></div>
-        <?php endif; ?>
-        <form method="post" novalidate>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" required autofocus value="<?= h($_POST['username'] ?? '') ?>">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
-        </form>
-        <p class="text-muted small mt-3 mb-0 text-center">
-          Demo: admin / admin123 &middot; cashier / cashier123
-        </p>
+<body style="margin:0;padding:0;">
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="text-center">
+      <div class="login-logo mx-auto">
+        <i class="bi bi-receipt-cutoff"></i>
       </div>
+      <div class="login-title"><?= h(SHOP_NAME) ?></div>
+      <div class="login-sub">GST Billing &amp; Stock Management System</div>
     </div>
+
+    <?php if ($error): ?>
+      <div class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-3" role="alert">
+        <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+        <span><?= h($error) ?></span>
+      </div>
+    <?php endif; ?>
+
+    <form method="post" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+          <input type="text" name="username" class="form-control border-start-0 ps-0"
+                 placeholder="Enter username" required autofocus
+                 value="<?= h($_POST['username'] ?? '') ?>">
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+          <input type="password" name="password" class="form-control border-start-0 ps-0"
+                 placeholder="Enter password" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-login">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+      </button>
+    </form>
+
+    <div class="login-demo">
+      <strong>Demo Credentials</strong><br>
+      admin / admin123 &nbsp;&middot;&nbsp; cashier / cashier123
+    </div>
+
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
