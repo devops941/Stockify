@@ -9,11 +9,11 @@ requireRole('admin');
 try {
     $pdo->beginTransaction();
 
-    // Find all products that have duplicate names
+    // Find all products that have duplicate names (compliant with only_full_group_by)
     $stmt = $pdo->query(
         "SELECT name, COUNT(*) as cnt 
          FROM products 
-         GROUP BY TRIM(LOWER(name)) 
+         GROUP BY name 
          HAVING cnt > 1"
     );
     $duplicateGroups = $stmt->fetchAll();

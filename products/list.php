@@ -16,11 +16,9 @@ if ($search !== '') {
     $products = $pdo->query('SELECT * FROM products ORDER BY name')->fetchAll();
 }
 
-$dupCount = (int) $pdo->query(
-    "SELECT COUNT(*) FROM (
-        SELECT name FROM products GROUP BY TRIM(LOWER(name)) HAVING COUNT(*) > 1
-    ) t"
-)->fetchColumn();
+// Count duplicate product names safely in PHP (100% compatible with any MySQL sql_mode)
+$nameCounts = array_count_values(array_map(fn($p) => strtolower(trim($p['name'] ?? '')), $products));
+$dupCount = count(array_filter($nameCounts, fn($cnt) => $cnt > 1));
 
 $pageTitle = 'Products';
 require __DIR__ . '/../includes/header.php';

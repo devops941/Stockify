@@ -53,7 +53,17 @@ try {
     );
     $results[] = "Deleted {$delCustomers} duplicate customer row(s).";
 
-    // 7. Add UNIQUE keys so duplicates can never happen again
+    // 7. Ensure settings table exists (MySQL 5.7+ compatible: TEXT without default)
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `settings` (
+            `key` varchar(64) NOT NULL,
+            `value` text NULL,
+            PRIMARY KEY (`key`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        $results[] = "Settings table verified and ready.";
+    } catch (Throwable $e) {}
+
+    // 8. Add UNIQUE keys so duplicates can never happen again
     try {
         $pdo->exec("ALTER TABLE products ADD UNIQUE KEY uk_product_name (name)");
         $results[] = "Added UNIQUE constraint to prevent future product duplicates.";

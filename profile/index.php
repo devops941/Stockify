@@ -6,10 +6,10 @@ require_once __DIR__ . '/../includes/functions.php';
 
 requireRole('admin');
 
-// Auto-create settings table on first visit
+// Auto-create settings table on first visit (MySQL 5.7+ compatible: TEXT cannot have default value)
 $pdo->exec("CREATE TABLE IF NOT EXISTS `settings` (
     `key`   varchar(64) NOT NULL,
-    `value` text        NOT NULL DEFAULT '',
+    `value` text        NULL,
     PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 

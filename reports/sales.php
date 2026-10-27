@@ -23,7 +23,7 @@ $stmt = $pdo->prepare(
      JOIN invoices i ON i.invoice_id = ii.invoice_id
      JOIN products p ON p.product_id = ii.product_id
      WHERE i.invoice_date BETWEEN ? AND ?
-     GROUP BY ii.product_id ORDER BY qty_sold DESC'
+     GROUP BY ii.product_id, p.name, p.unit ORDER BY qty_sold DESC'
 );
 $stmt->execute([$from, $to]);
 $byProduct = $stmt->fetchAll();
