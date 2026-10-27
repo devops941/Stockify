@@ -16,14 +16,41 @@ if ($search !== '') {
     $products = $pdo->query('SELECT * FROM products ORDER BY name')->fetchAll();
 }
 
+$dupCount = (int) $pdo->query(
+    "SELECT COUNT(*) FROM (
+        SELECT name FROM products GROUP BY TRIM(LOWER(name)) HAVING COUNT(*) > 1
+    ) t"
+)->fetchColumn();
+
 $pageTitle = 'Products';
 require __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h4 class="mb-0"><i class="bi bi-box-seam"></i> Product Master</h4>
-  <a href="<?= BASE_URL ?>/products/add.php" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Product</a>
+  <div>
+    <?php if ($dupCount > 0): ?>
+      <a href="<?= BASE_URL ?>/products/cleanup_duplicates.php" class="btn btn-warning me-2 text-dark" onclick="return confirm('This will safely merge duplicate products, preserving sales history and stock. Continue?');">
+        <i class="bi bi-magic me-1"></i> Fix <?= $dupCount ?> Duplicate(s)
+      </a>
+    <?php endif; ?>
+    <a href="<?= BASE_URL ?>/products/add.php" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Product</a>
+  </div>
 </div>
+
+<?php if ($dupCount > 0): ?>
+<div class="alert alert-warning d-flex align-items-center justify-content-between py-2 px-3 mb-3">
+  <div class="d-flex align-items-center">
+    <i class="bi bi-exclamation-triangle-fill text-warning me-2 fs-5"></i>
+    <div>
+      <strong>Duplicate items found in database:</strong> <?= $dupCount ?> product(s) appear more than once in the catalog (e.g. from importing seed data twice).
+    </div>
+  </div>
+  <a href="<?= BASE_URL ?>/products/cleanup_duplicates.php" class="btn btn-sm btn-dark" onclick="return confirm('This will safely merge duplicate products, preserving sales history and stock. Continue?');">
+    <i class="bi bi-check-circle me-1"></i> Auto Merge &amp; Clean
+  </a>
+</div>
+<?php endif; ?>
 
 <div class="card p-3">
   <form method="get" class="row g-2 mb-3">

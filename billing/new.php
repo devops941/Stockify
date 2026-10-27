@@ -6,8 +6,28 @@ require_once __DIR__ . '/../includes/functions.php';
 
 requireLogin();
 
-$products  = $pdo->query('SELECT product_id, name, hsn_code, unit, selling_price, gst_rate, stock_qty FROM products ORDER BY name')->fetchAll();
-$customers = $pdo->query('SELECT customer_id, name, phone, state FROM customers ORDER BY name')->fetchAll();
+$rawProducts = $pdo->query('SELECT product_id, name, hsn_code, unit, selling_price, gst_rate, stock_qty FROM products ORDER BY name, product_id DESC')->fetchAll();
+// Deduplicate products by name so each item appears only once in the dropdown
+$products = [];
+$seen = [];
+foreach ($rawProducts as $p) {
+    $key = strtolower(trim($p['name']));
+    if (!isset($seen[$key])) {
+        $seen[$key] = true;
+        $products[] = $p;
+    }
+}
+
+$rawCustomers = $pdo->query('SELECT customer_id, name, phone, state FROM customers ORDER BY name, customer_id DESC')->fetchAll();
+$customers = [];
+$seenCust = [];
+foreach ($rawCustomers as $c) {
+    $cKey = strtolower(trim($c['name'])) . '|' . trim($c['phone'] ?? '');
+    if (!isset($seenCust[$cKey])) {
+        $seenCust[$cKey] = true;
+        $customers[] = $c;
+    }
+}
 
 $selectedCustomerId = (int) ($_GET['customer_id'] ?? 0);
 

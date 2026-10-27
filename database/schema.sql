@@ -30,7 +30,8 @@ CREATE TABLE products (
     stock_qty      DECIMAL(10,2) NOT NULL DEFAULT 0,
     reorder_level  DECIMAL(10,2) NOT NULL DEFAULT 0,
     created_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_product_name (name)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------
@@ -111,12 +112,12 @@ CREATE TABLE purchases (
 -- ---------------------------------------------------------------
 
 -- Users: admin/admin123, cashier/cashier123
-INSERT INTO users (username, password_hash, full_name, role) VALUES
+INSERT IGNORE INTO users (username, password_hash, full_name, role) VALUES
 ('admin',   '$2y$10$zokt0kyyvgYKvSZJLv4dxeLejeSCBiBZ1vHkhs8Ka5h45vlxMfKgy', 'Shop Owner', 'admin'),
 ('cashier', '$2y$10$8mroxjqZDejihO1CWEFex.Eh/gax0Qla9d86nG5EB3LOrB2DtSvxC', 'Cashier', 'cashier');
 
 -- Sample products (shop state = Maharashtra, see config/config.php)
-INSERT INTO products (name, hsn_code, unit, purchase_price, selling_price, gst_rate, stock_qty, reorder_level) VALUES
+INSERT IGNORE INTO products (name, hsn_code, unit, purchase_price, selling_price, gst_rate, stock_qty, reorder_level) VALUES
 ('Basmati Rice 1kg',      '1006', 'kg',   60.00,  80.00,  5,  50, 10),
 ('Toor Dal 1kg',          '0713', 'kg',   90.00, 120.00,  5,  40, 10),
 ('Refined Sunflower Oil 1L','1512','litre',110.00,140.00, 5,  30, 5),
