@@ -81,16 +81,16 @@ require __DIR__ . '/includes/header.php';
         <div class="section-header px-4 pt-3">
           <i class="bi bi-receipt-cutoff icon-blue"></i>
           Recent Invoices
-          <a href="<?= BASE_URL ?>/billing/list.php" class="btn btn-sm btn-outline-primary ms-auto">View All</a>
+          <a href="<?= BASE_URL ?>/billing/list.php" class="btn btn-sm btn-outline-primary ms-auto">View All <i class="bi bi-arrow-right ms-1"></i></a>
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead>
               <tr>
-                <th>Invoice No</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th class="text-end">Amount</th>
+                <th><i class="bi bi-receipt me-1"></i>Invoice No</th>
+                <th><i class="bi bi-calendar3 me-1"></i>Date</th>
+                <th><i class="bi bi-person me-1"></i>Customer</th>
+                <th class="text-end"><i class="bi bi-currency-rupee me-1"></i>Amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -98,12 +98,12 @@ require __DIR__ . '/includes/header.php';
             <?php foreach ($recentInvoices as $inv): ?>
               <tr>
                 <td><span class="fw-semibold text-primary"><?= h($inv['invoice_no']) ?></span></td>
-                <td class="text-muted"><?= date('d M', strtotime($inv['invoice_date'])) ?></td>
-                <td><?= h($inv['customer_name']) ?></td>
+                <td class="text-muted"><i class="bi bi-calendar-event me-1"></i><?= date('d M', strtotime($inv['invoice_date'])) ?></td>
+                <td><i class="bi bi-person-circle text-muted me-1"></i><?= h($inv['customer_name']) ?></td>
                 <td class="text-end fw-semibold">&#8377; <?= money($inv['grand_total']) ?></td>
                 <td class="text-end">
                   <a href="<?= BASE_URL ?>/billing/view.php?id=<?= (int) $inv['invoice_id'] ?>"
-                     class="btn btn-sm btn-outline-primary">
+                     class="btn btn-sm btn-outline-primary" title="View Invoice">
                     <i class="bi bi-eye"></i>
                   </a>
                 </td>
@@ -112,8 +112,8 @@ require __DIR__ . '/includes/header.php';
             <?php if (!$recentInvoices): ?>
               <tr><td colspan="5">
                 <div class="empty-state">
-                  <i class="bi bi-receipt d-block"></i>
-                  <p>No invoices yet. <a href="<?= BASE_URL ?>/billing/new.php">Create one</a></p>
+                  <i class="bi bi-receipt d-block fs-2 mb-2 text-muted"></i>
+                  <p>No invoices yet. <a href="<?= BASE_URL ?>/billing/new.php"><i class="bi bi-plus-lg me-1"></i>Create one</a></p>
                 </div>
               </td></tr>
             <?php endif; ?>
@@ -136,7 +136,7 @@ require __DIR__ . '/includes/header.php';
         </div>
         <?php if (!$lowStock): ?>
           <div class="empty-state">
-            <i class="bi bi-check-circle-fill text-success d-block"></i>
+            <i class="bi bi-check-circle-fill text-success d-block fs-2 mb-2"></i>
             <p>All products are well stocked!</p>
           </div>
         <?php else: ?>
@@ -144,9 +144,9 @@ require __DIR__ . '/includes/header.php';
             <table class="table table-hover align-middle mb-0">
               <thead>
                 <tr>
-                  <th>Product</th>
-                  <th class="text-end">Stock</th>
-                  <th class="text-end">Min</th>
+                  <th><i class="bi bi-box-seam me-1"></i>Product</th>
+                  <th class="text-end"><i class="bi bi-boxes me-1"></i>Stock</th>
+                  <th class="text-end"><i class="bi bi-arrow-down-square me-1"></i>Min</th>
                 </tr>
               </thead>
               <tbody>

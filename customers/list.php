@@ -37,27 +37,38 @@ require __DIR__ . '/../includes/header.php';
 
   <div class="table-responsive">
     <table class="table table-hover align-middle">
-      <thead><tr><th>Name</th><th>Phone</th><th>State</th><th>GSTIN</th><?php if (isAdmin()): ?><th></th><?php endif; ?></tr></thead>
+      <thead>
+        <tr>
+          <th><i class="bi bi-person me-1"></i>Name</th>
+          <th><i class="bi bi-telephone me-1"></i>Phone</th>
+          <th><i class="bi bi-geo-alt me-1"></i>State</th>
+          <th><i class="bi bi-file-earmark-text me-1"></i>GSTIN</th>
+          <?php if (isAdmin()): ?><th class="text-end"><i class="bi bi-gear me-1"></i>Actions</th><?php endif; ?>
+        </tr>
+      </thead>
       <tbody>
       <?php foreach ($customers as $c): ?>
         <tr>
-          <td><?= h($c['name']) ?></td>
-          <td><?= h($c['phone'] ?: '-') ?></td>
-          <td><?= h($c['state']) ?></td>
-          <td><?= h($c['gstin'] ?: '-') ?></td>
+          <td><span class="fw-semibold"><i class="bi bi-person-circle text-muted me-1"></i><?= h($c['name']) ?></span></td>
+          <td><?= $c['phone'] ? '<i class="bi bi-telephone-fill text-muted me-1"></i>' . h($c['phone']) : '<span class="text-muted">—</span>' ?></td>
+          <td><i class="bi bi-geo-fill text-muted me-1"></i><?= h($c['state']) ?></td>
+          <td><?= $c['gstin'] ? '<code class="small">' . h($c['gstin']) . '</code>' : '<span class="text-muted">—</span>' ?></td>
           <?php if (isAdmin()): ?>
-          <td class="text-nowrap">
-            <a href="<?= BASE_URL ?>/customers/edit.php?id=<?= (int) $c['customer_id'] ?>" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+          <td class="text-end text-nowrap">
+            <a href="<?= BASE_URL ?>/customers/edit.php?id=<?= (int) $c['customer_id'] ?>" class="btn btn-sm btn-outline-primary" title="Edit Customer"><i class="bi bi-pencil"></i></a>
             <form method="post" action="<?= BASE_URL ?>/customers/delete.php" class="d-inline" onsubmit="return confirm('Delete this customer?');">
               <input type="hidden" name="id" value="<?= (int) $c['customer_id'] ?>">
-              <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+              <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Customer"><i class="bi bi-trash"></i></button>
             </form>
           </td>
           <?php endif; ?>
         </tr>
       <?php endforeach; ?>
       <?php if (!$customers): ?>
-        <tr><td colspan="5" class="text-center text-muted">No customers found.</td></tr>
+        <tr><td colspan="5" class="text-center text-muted py-4">
+          <i class="bi bi-people text-muted fs-2 d-block mb-2"></i>
+          No customers found.
+        </td></tr>
       <?php endif; ?>
       </tbody>
     </table>

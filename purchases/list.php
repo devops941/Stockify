@@ -25,21 +25,31 @@ require __DIR__ . '/../includes/header.php';
   <div class="table-responsive">
     <table class="table table-hover align-middle">
       <thead>
-        <tr><th>Date</th><th>Supplier</th><th>Product</th><th class="text-end">Qty</th><th class="text-end">Rate</th><th class="text-end">Amount</th></tr>
+        <tr>
+          <th><i class="bi bi-calendar-event me-1"></i>Date</th>
+          <th><i class="bi bi-building me-1"></i>Supplier</th>
+          <th><i class="bi bi-box-seam me-1"></i>Product</th>
+          <th class="text-end"><i class="bi bi-boxes me-1"></i>Qty</th>
+          <th class="text-end"><i class="bi bi-currency-rupee me-1"></i>Rate</th>
+          <th class="text-end"><i class="bi bi-cash-stack me-1"></i>Amount</th>
+        </tr>
       </thead>
       <tbody>
       <?php foreach ($purchases as $p): ?>
         <tr>
-          <td><?= h($p['purchase_date']) ?></td>
-          <td><?= h($p['supplier_name']) ?></td>
-          <td><?= h($p['product_name']) ?></td>
+          <td><i class="bi bi-calendar3 text-muted me-1"></i><?= h($p['purchase_date']) ?></td>
+          <td><span class="fw-semibold"><i class="bi bi-building text-muted me-1"></i><?= h($p['supplier_name']) ?></span></td>
+          <td><i class="bi bi-box-seam text-muted me-1"></i><?= h($p['product_name']) ?></td>
           <td class="text-end"><?= rtrim(rtrim($p['qty'], '0'), '.') ?> <?= h($p['unit']) ?></td>
-          <td class="text-end"><?= money($p['rate']) ?></td>
-          <td class="text-end"><?= money($p['qty'] * $p['rate']) ?></td>
+          <td class="text-end">&#8377; <?= money($p['rate']) ?></td>
+          <td class="text-end fw-semibold">&#8377; <?= money($p['qty'] * $p['rate']) ?></td>
         </tr>
       <?php endforeach; ?>
       <?php if (!$purchases): ?>
-        <tr><td colspan="6" class="text-center text-muted">No purchase records yet.</td></tr>
+        <tr><td colspan="6" class="text-center text-muted py-4">
+          <i class="bi bi-truck text-muted fs-2 d-block mb-2"></i>
+          No purchase records yet.
+        </td></tr>
       <?php endif; ?>
       </tbody>
     </table>

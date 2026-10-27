@@ -37,32 +37,32 @@ require __DIR__ . '/../includes/header.php';
 <div class="row justify-content-center">
   <div class="col-lg-6">
     <div class="card p-4">
-      <h4 class="mb-3"><i class="bi bi-plus-lg"></i> Add Customer</h4>
+      <h4 class="mb-3"><i class="bi bi-person-plus-fill text-primary me-2"></i> Add Customer</h4>
       <?php if ($errors): ?>
         <div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $e) echo '<li>' . h($e) . '</li>'; ?></ul></div>
       <?php endif; ?>
       <form method="post" novalidate>
         <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">
         <div class="mb-3">
-          <label class="form-label">Name</label>
+          <label class="form-label"><i class="bi bi-person me-1"></i>Name</label>
           <input type="text" name="name" class="form-control" value="<?= h($form['name']) ?>" required autofocus>
         </div>
         <div class="mb-3">
-          <label class="form-label">Phone</label>
+          <label class="form-label"><i class="bi bi-telephone me-1"></i>Phone</label>
           <input type="text" name="phone" class="form-control" value="<?= h($form['phone']) ?>">
         </div>
         <div class="mb-3">
-          <label class="form-label">State</label>
+          <label class="form-label"><i class="bi bi-geo-alt me-1"></i>State</label>
           <input type="text" name="state" class="form-control" value="<?= h($form['state']) ?>" required>
-          <div class="form-text">Shop state is <?= h(SHOP_STATE) ?>. Same state &rarr; CGST+SGST, different state &rarr; IGST.</div>
+          <div class="form-text"><i class="bi bi-info-circle me-1"></i>Shop state is <strong><?= h(shopSetting('shop_state')) ?></strong>. Same state &rarr; Tax (intra-state), different state &rarr; IGST.</div>
         </div>
         <div class="mb-3">
-          <label class="form-label">GSTIN (optional)</label>
-          <input type="text" name="gstin" class="form-control" value="<?= h($form['gstin']) ?>" maxlength="15">
+          <label class="form-label"><i class="bi bi-file-earmark-text me-1"></i>GSTIN <span class="text-muted fw-normal">(optional)</span></label>
+          <input type="text" name="gstin" class="form-control" value="<?= h($form['gstin']) ?>" maxlength="15" style="text-transform:uppercase">
         </div>
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save Customer</button>
-          <a href="<?= BASE_URL ?>/customers/list.php" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save Customer</button>
+          <a href="<?= BASE_URL ?>/customers/list.php" class="btn btn-outline-secondary"><i class="bi bi-x me-1"></i>Cancel</a>
         </div>
       </form>
     </div>

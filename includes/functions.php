@@ -49,9 +49,25 @@ function h($value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function shopSetting(string $key): string
+{
+    $val = $GLOBALS['_shopSettings'][$key] ?? '';
+    if ($val !== '') {
+        return $val;
+    }
+    $map = [
+        'shop_name'    => SHOP_NAME,
+        'shop_address' => SHOP_ADDRESS,
+        'shop_state'   => SHOP_STATE,
+        'shop_gstin'   => SHOP_GSTIN,
+        'shop_phone'   => SHOP_PHONE,
+    ];
+    return $map[$key] ?? '';
+}
+
 function isIntraState(string $customerState): bool
 {
-    return strcasecmp(trim($customerState), trim(SHOP_STATE)) === 0;
+    return strcasecmp(trim($customerState), trim(shopSetting('shop_state'))) === 0;
 }
 
 /**

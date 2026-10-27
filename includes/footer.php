@@ -5,13 +5,13 @@
       <div class="app-footer-brand">
         <i class="bi bi-receipt-cutoff"></i>
         <div>
-          <div class="app-footer-shop"><?= h(SHOP_NAME) ?></div>
-          <div class="app-footer-sub">GST Billing &amp; Stock Management System</div>
+          <div class="app-footer-shop"><?= h(shopSetting('shop_name')) ?></div>
+          <div class="app-footer-sub">Billing &amp; Stock Management System</div>
         </div>
       </div>
       <div class="app-footer-meta">
         <span><i class="bi bi-calendar3"></i> FY <?= h(getFinancialYear()) ?></span>
-        <span><i class="bi bi-geo-alt"></i> <?= h(SHOP_STATE) ?></span>
+        <span><i class="bi bi-geo-alt"></i> <?= h(shopSetting('shop_state')) ?></span>
         <span>&copy; <?= date('Y') ?> All rights reserved</span>
       </div>
     </div>

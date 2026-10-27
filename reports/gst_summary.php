@@ -25,10 +25,9 @@ $stmt->execute([$from, $to]);
 $rows = $stmt->fetchAll();
 
 $totals = [
-    'taxable' => array_sum(array_column($rows, 'taxable')),
-    'cgst'    => array_sum(array_column($rows, 'cgst')),
-    'sgst'    => array_sum(array_column($rows, 'sgst')),
-    'igst'    => array_sum(array_column($rows, 'igst')),
+    'taxable'   => array_sum(array_column($rows, 'taxable')),
+    'tax'       => array_sum(array_column($rows, 'cgst')) + array_sum(array_column($rows, 'sgst')),
+    'igst'      => array_sum(array_column($rows, 'igst')),
     'total_gst' => array_sum(array_column($rows, 'total_gst')),
 ];
 
@@ -41,47 +40,56 @@ require __DIR__ . '/../includes/header.php';
 <div class="card p-3 mb-3">
   <form method="get" class="row g-2">
     <div class="col-sm-4">
-      <label class="form-label small mb-0">From</label>
+      <label class="form-label small mb-0"><i class="bi bi-calendar-event me-1"></i>From</label>
       <input type="date" name="from" class="form-control" value="<?= h($from) ?>">
     </div>
     <div class="col-sm-4">
-      <label class="form-label small mb-0">To</label>
+      <label class="form-label small mb-0"><i class="bi bi-calendar-event me-1"></i>To</label>
       <input type="date" name="to" class="form-control" value="<?= h($to) ?>">
     </div>
     <div class="col-sm-2 d-flex align-items-end">
-      <button class="btn btn-outline-secondary w-100" type="submit"><i class="bi bi-search"></i> Apply</button>
+      <button class="btn btn-outline-secondary w-100" type="submit"><i class="bi bi-funnel me-1"></i> Apply</button>
     </div>
   </form>
 </div>
 
 <div class="card p-3">
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover align-middle mb-0">
       <thead>
-        <tr><th>GST Rate</th><th class="text-end">Taxable Value</th><th class="text-end">CGST</th><th class="text-end">SGST</th><th class="text-end">IGST</th><th class="text-end">Total GST</th></tr>
+        <tr>
+          <th><i class="bi bi-percent me-1"></i>GST Rate</th>
+          <th class="text-end"><i class="bi bi-cash me-1"></i>Taxable Value</th>
+          <th class="text-end"><i class="bi bi-receipt me-1"></i>Tax (CGST+SGST)</th>
+          <th class="text-end"><i class="bi bi-globe me-1"></i>IGST</th>
+          <th class="text-end"><i class="bi bi-cash-stack me-1"></i>Total Tax</th>
+        </tr>
       </thead>
       <tbody>
       <?php foreach ($rows as $r): ?>
         <tr>
-          <td><?= rtrim(rtrim($r['gst_rate'], '0'), '.') ?>%</td>
-          <td class="text-end"><?= money($r['taxable']) ?></td>
-          <td class="text-end"><?= money($r['cgst']) ?></td>
-          <td class="text-end"><?= money($r['sgst']) ?></td>
-          <td class="text-end"><?= money($r['igst']) ?></td>
-          <td class="text-end fw-semibold"><?= money($r['total_gst']) ?></td>
+          <td><span class="badge bg-primary bg-opacity-10 text-primary fw-semibold"><i class="bi bi-percent me-1"></i><?= rtrim(rtrim($r['gst_rate'], '0'), '.') ?>%</span></td>
+          <td class="text-end">&#8377; <?= money($r['taxable']) ?></td>
+          <td class="text-end">&#8377; <?= money($r['cgst'] + $r['sgst']) ?></td>
+          <td class="text-end">&#8377; <?= money($r['igst']) ?></td>
+          <td class="text-end fw-semibold">&#8377; <?= money($r['total_gst']) ?></td>
         </tr>
       <?php endforeach; ?>
-      <?php if (!$rows): ?><tr><td colspan="6" class="text-center text-muted">No GST data in this period.</td></tr><?php endif; ?>
+      <?php if (!$rows): ?>
+        <tr><td colspan="5" class="text-center text-muted py-4">
+          <i class="bi bi-receipt text-muted fs-2 d-block mb-2"></i>
+          No GST data in this period.
+        </td></tr>
+      <?php endif; ?>
       </tbody>
       <?php if ($rows): ?>
       <tfoot>
         <tr class="fw-bold table-light">
-          <td>Total</td>
-          <td class="text-end"><?= money($totals['taxable']) ?></td>
-          <td class="text-end"><?= money($totals['cgst']) ?></td>
-          <td class="text-end"><?= money($totals['sgst']) ?></td>
-          <td class="text-end"><?= money($totals['igst']) ?></td>
-          <td class="text-end"><?= money($totals['total_gst']) ?></td>
+          <td><i class="bi bi-calculator me-1"></i>Total</td>
+          <td class="text-end">&#8377; <?= money($totals['taxable']) ?></td>
+          <td class="text-end">&#8377; <?= money($totals['tax']) ?></td>
+          <td class="text-end">&#8377; <?= money($totals['igst']) ?></td>
+          <td class="text-end text-primary">&#8377; <?= money($totals['total_gst']) ?></td>
         </tr>
       </tfoot>
       <?php endif; ?>

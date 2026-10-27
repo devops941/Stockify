@@ -42,31 +42,31 @@ require __DIR__ . '/../includes/header.php';
 <div class="row justify-content-center">
   <div class="col-lg-6">
     <div class="card p-4">
-      <h4 class="mb-3"><i class="bi bi-pencil"></i> Edit Customer</h4>
+      <h4 class="mb-3"><i class="bi bi-person-gear text-primary me-2"></i> Edit Customer</h4>
       <?php if ($errors): ?>
         <div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $e) echo '<li>' . h($e) . '</li>'; ?></ul></div>
       <?php endif; ?>
       <form method="post" novalidate>
         <input type="hidden" name="id" value="<?= $id ?>">
         <div class="mb-3">
-          <label class="form-label">Name</label>
+          <label class="form-label"><i class="bi bi-person me-1"></i>Name</label>
           <input type="text" name="name" class="form-control" value="<?= h($form['name']) ?>" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Phone</label>
+          <label class="form-label"><i class="bi bi-telephone me-1"></i>Phone</label>
           <input type="text" name="phone" class="form-control" value="<?= h($form['phone']) ?>">
         </div>
         <div class="mb-3">
-          <label class="form-label">State</label>
+          <label class="form-label"><i class="bi bi-geo-alt me-1"></i>State</label>
           <input type="text" name="state" class="form-control" value="<?= h($form['state']) ?>" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">GSTIN (optional)</label>
-          <input type="text" name="gstin" class="form-control" value="<?= h($form['gstin']) ?>" maxlength="15">
+          <label class="form-label"><i class="bi bi-file-earmark-text me-1"></i>GSTIN <span class="text-muted fw-normal">(optional)</span></label>
+          <input type="text" name="gstin" class="form-control" value="<?= h($form['gstin']) ?>" maxlength="15" style="text-transform:uppercase">
         </div>
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update Customer</button>
-          <a href="<?= BASE_URL ?>/customers/list.php" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Update Customer</button>
+          <a href="<?= BASE_URL ?>/customers/list.php" class="btn btn-outline-secondary"><i class="bi bi-x me-1"></i>Cancel</a>
         </div>
       </form>
     </div>

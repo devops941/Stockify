@@ -1,0 +1,12 @@
+{
+  "name": "billing-stock-app",
+  "version": "1.0.0",
+  "description": "GST Billing & Stock Management System",
+  "private": true,
+  "scripts": {
+    "postinstall": "node scripts/copy-icons.js"
+  },
+  "dependencies": {
+    "bootstrap-icons": "^1.11.3"
+  }
+}

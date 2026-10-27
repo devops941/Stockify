@@ -25,3 +25,15 @@ try {
     http_response_code(500);
     die('Database connection failed. Please check config/config.php and ensure MySQL is running.');
 }
+
+// Load dynamic shop settings into a global. Falls back to config.php constants if table absent.
+$GLOBALS['_shopSettings'] = [];
+try {
+    $_ss = $pdo->query('SELECT `key`, `value` FROM `settings`');
+    if ($_ss) {
+        foreach ($_ss->fetchAll() as $_sr) {
+            $GLOBALS['_shopSettings'][$_sr['key']] = $_sr['value'];
+        }
+    }
+} catch (Throwable $_se) {}
+unset($_ss, $_sr, $_se);

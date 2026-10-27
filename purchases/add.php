@@ -64,17 +64,17 @@ require __DIR__ . '/../includes/header.php';
 <div class="row justify-content-center">
   <div class="col-lg-6">
     <div class="card p-4">
-      <h4 class="mb-3"><i class="bi bi-truck"></i> Record Purchase</h4>
+      <h4 class="mb-3"><i class="bi bi-truck text-primary me-2"></i> Record Purchase</h4>
       <?php if ($errors): ?>
         <div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $e) echo '<li>' . h($e) . '</li>'; ?></ul></div>
       <?php endif; ?>
       <form method="post" novalidate>
         <div class="mb-3">
-          <label class="form-label">Supplier Name</label>
+          <label class="form-label"><i class="bi bi-building me-1"></i>Supplier Name</label>
           <input type="text" name="supplier_name" class="form-control" value="<?= h($form['supplier_name']) ?>" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Product</label>
+          <label class="form-label"><i class="bi bi-box-seam me-1"></i>Product</label>
           <select name="product_id" class="form-select" required>
             <option value="">-- Select Product --</option>
             <?php foreach ($products as $p): ?>
@@ -86,21 +86,21 @@ require __DIR__ . '/../includes/header.php';
         </div>
         <div class="row g-3">
           <div class="col-md-4">
-            <label class="form-label">Quantity Received</label>
+            <label class="form-label"><i class="bi bi-boxes me-1"></i>Quantity Received</label>
             <input type="number" step="0.01" min="0.01" name="qty" class="form-control" value="<?= h($form['qty']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Purchase Rate (&#8377;)</label>
+            <label class="form-label"><i class="bi bi-currency-rupee me-1"></i>Purchase Rate (&#8377;)</label>
             <input type="number" step="0.01" min="0" name="rate" class="form-control" value="<?= h($form['rate']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Date</label>
+            <label class="form-label"><i class="bi bi-calendar-date me-1"></i>Date</label>
             <input type="date" name="purchase_date" class="form-control" value="<?= h($form['purchase_date']) ?>" required>
           </div>
         </div>
         <div class="mt-4 d-flex gap-2">
-          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save Purchase</button>
-          <a href="<?= BASE_URL ?>/purchases/list.php" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i> Save Purchase</button>
+          <a href="<?= BASE_URL ?>/purchases/list.php" class="btn btn-outline-secondary"><i class="bi bi-x me-1"></i> Cancel</a>
         </div>
       </form>
     </div>

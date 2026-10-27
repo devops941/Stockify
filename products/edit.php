@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($form['hsn_code'] === '') $errors[] = 'HSN code is required.';
     if (!is_numeric($form['purchase_price']) || $form['purchase_price'] < 0) $errors[] = 'Purchase price must be a valid non-negative number.';
     if (!is_numeric($form['selling_price']) || $form['selling_price'] < 0) $errors[] = 'Selling price must be a valid non-negative number.';
-    if (!in_array((string) $form['gst_rate'], ['0', '5', '12', '18', '28'], true)) $errors[] = 'GST rate must be one of 0, 5, 12, 18 or 28 percent.';
+    if (!in_array((string) $form['gst_rate'], ['0', '5', '12', '18', '28'], true)) $errors[] = 'Tax rate must be one of 0, 5, 12, 18 or 28 percent.';
     if (!is_numeric($form['stock_qty']) || $form['stock_qty'] < 0) $errors[] = 'Stock must be a valid non-negative number.';
     if (!is_numeric($form['reorder_level']) || $form['reorder_level'] < 0) $errors[] = 'Reorder level must be a valid non-negative number.';
 
@@ -54,7 +54,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="row justify-content-center">
   <div class="col-lg-7">
     <div class="card p-4">
-      <h4 class="mb-3"><i class="bi bi-pencil"></i> Edit Product</h4>
+      <h4 class="mb-3"><i class="bi bi-pencil-square text-primary me-2"></i> Edit Product</h4>
       <?php if ($errors): ?>
         <div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $e) echo '<li>' . h($e) . '</li>'; ?></ul></div>
       <?php endif; ?>
@@ -62,15 +62,15 @@ require __DIR__ . '/../includes/header.php';
         <input type="hidden" name="id" value="<?= $id ?>">
         <div class="row g-3">
           <div class="col-md-8">
-            <label class="form-label">Product Name</label>
+            <label class="form-label"><i class="bi bi-tag me-1"></i>Product Name</label>
             <input type="text" name="name" class="form-control" value="<?= h($form['name']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">HSN Code</label>
+            <label class="form-label"><i class="bi bi-upc me-1"></i>HSN Code</label>
             <input type="text" name="hsn_code" class="form-control" value="<?= h($form['hsn_code']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Unit</label>
+            <label class="form-label"><i class="bi bi-rulers me-1"></i>Unit</label>
             <select name="unit" class="form-select">
               <?php foreach (['nos', 'kg', 'litre', 'pack', 'box'] as $u): ?>
                 <option value="<?= $u ?>" <?= $form['unit'] === $u ? 'selected' : '' ?>><?= $u ?></option>
@@ -78,15 +78,15 @@ require __DIR__ . '/../includes/header.php';
             </select>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Purchase Price (&#8377;)</label>
+            <label class="form-label"><i class="bi bi-cart-arrow-down me-1"></i>Purchase Price (&#8377;)</label>
             <input type="number" step="0.01" min="0" name="purchase_price" class="form-control" value="<?= h($form['purchase_price']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Selling Price (&#8377;, before GST)</label>
+            <label class="form-label"><i class="bi bi-currency-rupee me-1"></i>Selling Price (&#8377;, before Tax)</label>
             <input type="number" step="0.01" min="0" name="selling_price" class="form-control" value="<?= h($form['selling_price']) ?>" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label">GST Rate (%)</label>
+            <label class="form-label"><i class="bi bi-percent me-1"></i>Tax Rate (%)</label>
             <select name="gst_rate" class="form-select">
               <?php foreach (['0', '5', '12', '18', '28'] as $r): ?>
                 <option value="<?= $r ?>" <?= (string)(int)$form['gst_rate'] === $r ? 'selected' : '' ?>><?= $r ?>%</option>
@@ -94,17 +94,17 @@ require __DIR__ . '/../includes/header.php';
             </select>
           </div>
           <div class="col-md-4">
-            <label class="form-label">Stock Quantity</label>
+            <label class="form-label"><i class="bi bi-boxes me-1"></i>Stock Quantity</label>
             <input type="number" step="0.01" min="0" name="stock_qty" class="form-control" value="<?= h($form['stock_qty']) ?>">
           </div>
           <div class="col-md-4">
-            <label class="form-label">Reorder Level</label>
+            <label class="form-label"><i class="bi bi-arrow-down-square me-1"></i>Reorder Level</label>
             <input type="number" step="0.01" min="0" name="reorder_level" class="form-control" value="<?= h($form['reorder_level']) ?>">
           </div>
         </div>
         <div class="mt-4 d-flex gap-2">
-          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update Product</button>
-          <a href="<?= BASE_URL ?>/products/list.php" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i> Update Product</button>
+          <a href="<?= BASE_URL ?>/products/list.php" class="btn btn-outline-secondary"><i class="bi bi-x me-1"></i> Cancel</a>
         </div>
       </form>
     </div>

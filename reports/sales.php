@@ -40,46 +40,69 @@ require __DIR__ . '/../includes/header.php';
 <div class="card p-3 mb-3">
   <form method="get" class="row g-2">
     <div class="col-sm-4">
-      <label class="form-label small mb-0">From</label>
+      <label class="form-label small mb-0"><i class="bi bi-calendar-event me-1"></i>From</label>
       <input type="date" name="from" class="form-control" value="<?= h($from) ?>">
     </div>
     <div class="col-sm-4">
-      <label class="form-label small mb-0">To</label>
+      <label class="form-label small mb-0"><i class="bi bi-calendar-event me-1"></i>To</label>
       <input type="date" name="to" class="form-control" value="<?= h($to) ?>">
     </div>
     <div class="col-sm-2 d-flex align-items-end">
-      <button class="btn btn-outline-secondary w-100" type="submit"><i class="bi bi-search"></i> Apply</button>
+      <button class="btn btn-outline-secondary w-100" type="submit"><i class="bi bi-funnel me-1"></i> Apply</button>
     </div>
   </form>
 </div>
 
 <div class="row g-3 mb-3">
   <div class="col-sm-6 col-md-3">
-    <div class="card stat-card p-3"><div class="text-muted small">Bills</div><div class="stat-value"><?= (int) $billCount ?></div></div>
+    <div class="card stat-card sc-blue">
+      <div class="stat-icon"><i class="bi bi-receipt"></i></div>
+      <div class="stat-label">Bills</div>
+      <div class="stat-value"><?= (int) $billCount ?></div>
+      <div class="stat-sub">in selected period</div>
+    </div>
   </div>
   <div class="col-sm-6 col-md-3">
-    <div class="card stat-card p-3"><div class="text-muted small">Total Sales</div><div class="stat-value">&#8377; <?= money($grandTotal) ?></div></div>
+    <div class="card stat-card sc-green">
+      <div class="stat-icon"><i class="bi bi-currency-rupee"></i></div>
+      <div class="stat-label">Total Sales</div>
+      <div class="stat-value">&#8377; <?= money($grandTotal) ?></div>
+      <div class="stat-sub">grand total</div>
+    </div>
   </div>
 </div>
 
 <div class="row g-3">
   <div class="col-lg-6">
     <div class="card p-3">
-      <h6>Daily Summary</h6>
+      <h6 class="fw-bold mb-3"><i class="bi bi-calendar-range me-2 text-primary"></i>Daily Summary</h6>
       <div class="table-responsive">
-        <table class="table table-sm table-hover">
-          <thead><tr><th>Date</th><th class="text-end">Bills</th><th class="text-end">Taxable</th><th class="text-end">Tax</th><th class="text-end">Total</th></tr></thead>
+        <table class="table table-sm table-hover align-middle">
+          <thead>
+            <tr>
+              <th><i class="bi bi-calendar3 me-1"></i>Date</th>
+              <th class="text-end"><i class="bi bi-receipt me-1"></i>Bills</th>
+              <th class="text-end"><i class="bi bi-cash me-1"></i>Taxable</th>
+              <th class="text-end"><i class="bi bi-percent me-1"></i>Tax</th>
+              <th class="text-end"><i class="bi bi-currency-rupee me-1"></i>Total</th>
+            </tr>
+          </thead>
           <tbody>
           <?php foreach ($daily as $d): ?>
             <tr>
-              <td><?= h($d['invoice_date']) ?></td>
+              <td><i class="bi bi-calendar-event text-muted me-1"></i><?= h($d['invoice_date']) ?></td>
               <td class="text-end"><?= (int) $d['bill_count'] ?></td>
               <td class="text-end"><?= money($d['taxable']) ?></td>
               <td class="text-end"><?= money($d['tax']) ?></td>
-              <td class="text-end fw-semibold"><?= money($d['total']) ?></td>
+              <td class="text-end fw-semibold">&#8377; <?= money($d['total']) ?></td>
             </tr>
           <?php endforeach; ?>
-          <?php if (!$daily): ?><tr><td colspan="5" class="text-center text-muted">No sales in this period.</td></tr><?php endif; ?>
+          <?php if (!$daily): ?>
+            <tr><td colspan="5" class="text-center text-muted py-4">
+              <i class="bi bi-calendar-x text-muted fs-2 d-block mb-2"></i>
+              No sales in this period.
+            </td></tr>
+          <?php endif; ?>
           </tbody>
         </table>
       </div>
@@ -87,20 +110,32 @@ require __DIR__ . '/../includes/header.php';
   </div>
   <div class="col-lg-6">
     <div class="card p-3">
-      <h6>Product-wise Sales</h6>
+      <h6 class="fw-bold mb-3"><i class="bi bi-pie-chart me-2 text-primary"></i>Product-wise Sales</h6>
       <div class="table-responsive">
-        <table class="table table-sm table-hover">
-          <thead><tr><th>Product</th><th class="text-end">Qty Sold</th><th class="text-end">Taxable</th><th class="text-end">GST</th></tr></thead>
+        <table class="table table-sm table-hover align-middle">
+          <thead>
+            <tr>
+              <th><i class="bi bi-box-seam me-1"></i>Product</th>
+              <th class="text-end"><i class="bi bi-boxes me-1"></i>Qty Sold</th>
+              <th class="text-end"><i class="bi bi-cash me-1"></i>Taxable</th>
+              <th class="text-end"><i class="bi bi-percent me-1"></i>Tax</th>
+            </tr>
+          </thead>
           <tbody>
           <?php foreach ($byProduct as $p): ?>
             <tr>
-              <td><?= h($p['name']) ?></td>
+              <td><span class="fw-medium"><i class="bi bi-box-seam text-muted me-1"></i><?= h($p['name']) ?></span></td>
               <td class="text-end"><?= rtrim(rtrim($p['qty_sold'], '0'), '.') ?> <?= h($p['unit']) ?></td>
-              <td class="text-end"><?= money($p['taxable']) ?></td>
-              <td class="text-end"><?= money($p['gst_amount']) ?></td>
+              <td class="text-end">&#8377; <?= money($p['taxable']) ?></td>
+              <td class="text-end">&#8377; <?= money($p['gst_amount']) ?></td>
             </tr>
           <?php endforeach; ?>
-          <?php if (!$byProduct): ?><tr><td colspan="4" class="text-center text-muted">No sales in this period.</td></tr><?php endif; ?>
+          <?php if (!$byProduct): ?>
+            <tr><td colspan="4" class="text-center text-muted py-4">
+              <i class="bi bi-pie-chart text-muted fs-2 d-block mb-2"></i>
+              No sales in this period.
+            </td></tr>
+          <?php endif; ?>
           </tbody>
         </table>
       </div>

@@ -45,8 +45,8 @@ class InvoicePDF extends FPDF
         $this->Cell(16, 7, 'Qty', 1, 0, 'R', true);
         $this->Cell(20, 7, 'Rate', 1, 0, 'R', true);
         $this->Cell(23, 7, 'Taxable', 1, 0, 'R', true);
-        $this->Cell(13, 7, 'GST%', 1, 0, 'R', true);
-        $this->Cell(20, 7, 'GST Amt', 1, 0, 'R', true);
+        $this->Cell(13, 7, 'Tax%', 1, 0, 'R', true);
+        $this->Cell(20, 7, 'Tax Amt', 1, 0, 'R', true);
         $this->Cell(25, 7, 'Total', 1, 1, 'R', true);
     }
 }
@@ -58,12 +58,12 @@ $pdf->AddPage();
 
 $pdf->SetFont('Courier', 'B', 14);
 $pdf->SetXY(10, 10);
-$pdf->Cell(190, 7, SHOP_NAME, 0, 1, 'C');
+$pdf->Cell(190, 7, shopSetting('shop_name'), 0, 1, 'C');
 $pdf->SetFont('Courier', '', 9);
 $pdf->SetX(10);
-$pdf->Cell(190, 5, SHOP_ADDRESS, 0, 1, 'C');
+$pdf->Cell(190, 5, shopSetting('shop_address'), 0, 1, 'C');
 $pdf->SetX(10);
-$pdf->Cell(190, 5, 'GSTIN: ' . SHOP_GSTIN . '   State: ' . SHOP_STATE . '   Ph: ' . SHOP_PHONE, 0, 1, 'C');
+$pdf->Cell(190, 5, 'GSTIN: ' . shopSetting('shop_gstin') . '   State: ' . shopSetting('shop_state') . '   Ph: ' . shopSetting('shop_phone'), 0, 1, 'C');
 
 $pdf->SetY($pdf->GetY() + 2);
 $pdf->SetLineWidth(0.3);
@@ -135,11 +135,8 @@ $pdf->Cell($valueW, 6, $rupee((float) $invoice['taxable_total']), 0, 1, 'R');
 
 if ((float) $invoice['cgst'] > 0 || (float) $invoice['sgst'] > 0) {
     $pdf->SetX(10);
-    $pdf->Cell($labelW, 6, 'CGST', 0, 0, 'R');
-    $pdf->Cell($valueW, 6, $rupee((float) $invoice['cgst']), 0, 1, 'R');
-    $pdf->SetX(10);
-    $pdf->Cell($labelW, 6, 'SGST', 0, 0, 'R');
-    $pdf->Cell($valueW, 6, $rupee((float) $invoice['sgst']), 0, 1, 'R');
+    $pdf->Cell($labelW, 6, 'Tax (CGST+SGST)', 0, 0, 'R');
+    $pdf->Cell($valueW, 6, $rupee((float) $invoice['cgst'] + (float) $invoice['sgst']), 0, 1, 'R');
 } else {
     $pdf->SetX(10);
     $pdf->Cell($labelW, 6, 'IGST', 0, 0, 'R');
